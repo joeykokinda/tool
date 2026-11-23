@@ -72,23 +72,38 @@ export function solAccount(seed, index = 0, scheme = "phantom") {
   return { ...solFromSeed32(slip10(seed, [44, 501, index, 0])), path: `m/44'/501'/${index}'/0'` };
 }
 
-export function btcAccount(seed, index = 0) {
-  const path = `m/84'/0'/0'/0/${index}`;
-  const node = HDKey.fromMasterSeed(seed).derive(path);
-  const witnessProgram = ripemd160(sha256(node.publicKey));
+export function btcFromPrivateKey(privateKey) {
+  const witnessProgram = ripemd160(sha256(secp256k1.getPublicKey(privateKey, true)));
   return {
-    path,
+    path: "",
     address: bech32.encode("bc", [0, ...bech32.toWords(witnessProgram)]),
-    privateKey: base58check.encode(concatBytes(Uint8Array.of(0x80), node.privateKey, Uint8Array.of(0x01))),
+    privateKey: base58check.encode(concatBytes(Uint8Array.of(0x80), privateKey, Uint8Array.of(0x01))),
   };
 }
 
-// Accepts an ETH hex key, or a Solana secret as base58 or a JSON byte array (32 or 64 bytes)
+export function btcAccount(seed, index = 0) {
+  const path = `m/84'/0'/0'/0/${index}`;
+  return { ...btcFromPrivateKey(HDKey.fromMasterSeed(seed).derive(path).privateKey), path };
+}
+
+function decodeWif(text) {
+  if (!/^[KL5][1-9A-HJ-NP-Za-km-z]{50,51}$/.test(text)) return null;
+  try {
+    const bytes = base58check.decode(text);
+    return bytes[0] === 0x80 && bytes.length >= 33 ? bytes.slice(1, 33) : null;
+  } catch {
+    return null;
+  }
+}
+
+// Accepts an ETH hex key, a Bitcoin WIF key, or a Solana secret as base58 or a JSON byte array (32 or 64 bytes)
 export function decodePrivateKey(input) {
   const text = input.trim();
   if (!text) return null;
   const hex = text.replace(/^0x/i, "");
   if (/^[0-9a-f]{64}$/i.test(hex)) return { chain: "Ethereum", ...ethFromPrivateKey(hexToBytes(hex.toLowerCase())) };
+  const wifKey = decodeWif(text);
+  if (wifKey) return { chain: "Bitcoin (native segwit)", ...btcFromPrivateKey(wifKey) };
   const bytes = text.startsWith("[") ? Uint8Array.from(JSON.parse(text)) : base58.decode(text);
   if (bytes.length !== 32 && bytes.length !== 64) throw new Error(`expected 32 or 64 bytes, got ${bytes.length}`);
   const account = solFromSeed32(bytes.slice(0, 32));

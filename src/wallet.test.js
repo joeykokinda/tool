@@ -22,6 +22,7 @@ assert.equal(sol.address, "HAgk14JpMQLgt6rVgv7cBQFJWFto5Dqxi472uT3DKpqk");
 assert.equal(decodePrivateKey(eth.privateKey).address, eth.address);
 assert.equal(decodePrivateKey(sol.privateKey).address, sol.address);
 assert.equal(decodePrivateKey(sol.keypairJson).address, sol.address);
+assert.equal(decodePrivateKey(btc.privateKey).address, btc.address);
 assert.throws(() => decodePrivateKey("[1,2,3]"));
 
 assert.ok(isValidMnemonic("  Test test test test test test test test test test test JUNK "));

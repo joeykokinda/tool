@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import Qr from "./Qr.jsx";
-import { SeedTool, KeyTool } from "./Wallets.jsx";
+import Wallets from "./Wallets.jsx";
 import { Password, WordCounter, Lorem, Units, Hashes, Convert, Timestamp } from "./Misc.jsx";
 
 const tools = [
   { id: "qr", name: "QR code", blurb: "Link, text, wifi or email, with your logo in the middle.", component: Qr },
-  { id: "wallet", name: "Wallet maker", blurb: "New ETH / SOL / BTC wallets, or seed phrase in, keys out.", component: SeedTool },
-  { id: "key", name: "Key decoder", blurb: "Private key to address, Solana base58 to keypair JSON and back.", component: KeyTool },
+  { id: "wallet", name: "Wallets", blurb: "Make a new ETH / SOL / BTC wallet, or paste a seed phrase or any private key to decode it.", component: Wallets },
   { id: "password", name: "Password", blurb: "Random passwords and word passphrases from the OS RNG.", component: Password },
   { id: "units", name: "Crypto units", blurb: "wei / gwei / ether, lamports / SOL, sats / BTC, exact.", component: Units },
   { id: "hash", name: "Hash", blurb: "keccak256, function selectors and sha256.", component: Hashes },
@@ -16,7 +15,7 @@ const tools = [
   { id: "lorem", name: "Lorem ipsum", blurb: "Placeholder text.", component: Lorem },
 ];
 
-const currentId = () => window.location.hash.slice(1);
+const currentId = () => window.location.hash.slice(1).replace(/^key$/, "wallet");
 
 export default function App() {
   const [id, setId] = useState(currentId);
