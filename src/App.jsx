@@ -45,6 +45,7 @@ export default function App() {
             {candidate.name}
           </a>
         ))}
+        <a href="/yt/">YouTube</a>
       </nav>
       <main className="glass">
         <h1>{tool.name}</h1>

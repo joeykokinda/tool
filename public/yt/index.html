@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>YouTube | Tools | Joey Kokinda</title>
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/yt/yt.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <a class="brand" href="/">tools<span>.jkokinda.com</span></a>
+        <a href="/">← all tools</a>
+      </header>
+      <main class="glass">
+        <h1>YouTube</h1>
+        <p class="blurb">Private: downloads run on my own server and need the password.</p>
+        <form id="download-form">
+          <label class="field">
+            <span>Video link</span>
+            <input id="video-url" type="url" placeholder="https://www.youtube.com/watch?v=" required autofocus />
+          </label>
+          <div class="grid">
+            <label class="field">
+              <span>Format</span>
+              <select id="format">
+                <option value="video">Video (mp4)</option>
+                <option value="audio">Audio (mp3)</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Password</span>
+              <input id="password" type="password" autocomplete="current-password" required />
+            </label>
+          </div>
+          <div class="row">
+            <button id="submit" type="submit">Download</button>
+            <span id="status" class="muted" role="status"></span>
+          </div>
+        </form>
+        <p><a id="file-link" class="file-link" hidden></a></p>
+      </main>
+    </div>
+    <script src="/yt/yt.js"></script>
+  </body>
+</html>

@@ -1,0 +1,266 @@
+/* Copied from src/style.css for the standalone /yt/ page */
+/* Mirrors the jkokinda.com palette and glass panels */
+@font-face {
+  font-family: "Berkeley Mono";
+  src: url("/BerkeleyMono-Regular.ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+:root {
+  --sky: #2b93d6;
+  --sky-deep: #1f6fb0;
+  --sky-light: #a9dcf7;
+  --sun: #ffc21a;
+  --sun-deep: #f2a800;
+  --cream: #fffdf6;
+  --cream-2: #fff7e6;
+  --ink: #26331f;
+  --ink-soft: #55634c;
+  --danger: #b3261e;
+  --shadow: 0 10px 40px rgba(31, 111, 176, 0.18);
+  --shadow-sm: 0 4px 14px rgba(31, 111, 176, 0.12);
+  --mono: "Berkeley Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--mono);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  background: var(--sky-light) url("/bgimage.jpg") center / cover fixed no-repeat;
+  min-height: 100vh;
+}
+
+a {
+  color: var(--sky-deep);
+}
+
+.app {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.25rem 1rem 2rem;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+header a {
+  background: rgba(255, 253, 246, 0.82);
+  padding: 0.35rem 0.75rem;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.brand {
+  font-size: 1.3rem;
+  color: var(--ink);
+}
+
+.brand span {
+  color: var(--ink-soft);
+}
+
+nav,
+.tabs,
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+nav {
+  margin-bottom: 1rem;
+}
+
+nav a,
+button {
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: #fff;
+  color: var(--sky-deep);
+  border: 1.5px solid var(--sky);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+nav a:hover,
+button:hover:not(:disabled) {
+  background: var(--sky-light);
+  transform: translateY(-1px);
+}
+
+nav a.active,
+.tabs button.active {
+  background: var(--sun);
+  border-color: var(--sun);
+  color: var(--ink);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+button.small {
+  padding: 0.25rem 0.6rem;
+  font-size: 0.8rem;
+}
+
+:focus-visible {
+  outline: 3px solid var(--sun-deep);
+  outline-offset: 2px;
+}
+
+.glass {
+  background: rgba(255, 253, 246, 0.88);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  padding: 1.5rem;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+h3 {
+  margin: 1.5rem 0 0.6rem;
+  font-size: 1rem;
+  border-bottom: 2px solid var(--sun);
+  padding-bottom: 0.25rem;
+}
+
+.blurb {
+  margin: 0.3rem 0 1.25rem;
+  color: var(--ink-soft);
+}
+
+.muted {
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+}
+
+.tabs,
+.row {
+  margin: 0.75rem 0;
+}
+
+.tabs button {
+  text-transform: capitalize;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 0.75rem 1rem;
+  align-items: end;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  min-width: 0;
+}
+
+.field.wide {
+  grid-column: 1 / -1;
+}
+
+input,
+select,
+textarea {
+  font: inherit;
+  font-size: 0.95rem;
+  color: var(--ink);
+  background: #fff;
+  border: 1.5px solid var(--sky-light);
+  padding: 0.5rem 0.6rem;
+  width: 100%;
+  min-width: 0;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--sky);
+  outline: none;
+}
+
+textarea {
+  resize: vertical;
+  display: block;
+}
+
+input[type="color"] {
+  padding: 0.15rem;
+  height: 2.4rem;
+}
+
+input[type="range"],
+input[type="checkbox"] {
+  padding: 0;
+  border: none;
+  accent-color: var(--sky-deep);
+}
+
+input[type="checkbox"] {
+  width: auto;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.85rem;
+  padding-bottom: 0.5rem;
+}
+
+.error {
+  color: var(--danger);
+  font-size: 0.85rem;
+}
+
+.warning {
+  background: var(--cream-2);
+  border-left: 4px solid var(--sun-deep);
+  padding: 0.6rem 0.8rem;
+  font-size: 0.82rem;
+  margin: 0 0 1rem;
+}
+
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.file-link {
+  font-weight: 600;
+}
+
+.muted,
+.error {
+  font-size: 0.85rem;
+}
