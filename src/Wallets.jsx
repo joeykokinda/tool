@@ -11,8 +11,8 @@ function decode(input, passphrase, count, solScheme) {
     try {
       const { chain, ...account } = decodePrivateKey(text);
       return { kind: "key", chains: [{ name: chain, accounts: [account] }] };
-    } catch (caught) {
-      return { kind: "key", chains: [], error: "Not a private key I recognise: " + caught.message };
+    } catch {
+      return { kind: "key", chains: [], error: "Not a seed phrase or a private key I recognise (ETH hex, Solana base58 or keypair JSON, Bitcoin WIF)." };
     }
   }
   if (!isValidMnemonic(text))
