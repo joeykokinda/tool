@@ -1,0 +1,14 @@
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.file-link {
+  font-weight: 600;
+}
+
+.muted,
+.error {
+  font-size: 0.85rem;
+}

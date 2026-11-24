@@ -6,7 +6,6 @@
 
 # Only the YouTube page may make requests, and only to this site (its /yt/api proxy).
 /yt/*
-  Cache-Control: no-cache
   ! Content-Security-Policy
   Content-Security-Policy: default-src 'self'; style-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
 

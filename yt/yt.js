@@ -1,3 +1,6 @@
+import "../src/style.css";
+import "./yt.css";
+
 const api = "/yt/api";
 const form = document.getElementById("download-form");
 const statusLine = document.getElementById("status");
