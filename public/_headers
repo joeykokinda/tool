@@ -1,14 +1,13 @@
 /*
-  Content-Security-Policy: default-src 'self'; connect-src 'self' data: blob:; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
+  Content-Security-Policy: default-src 'self'; connect-src data: blob:; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
   X-Content-Type-Options: nosniff
   Referrer-Policy: no-referrer
   Permissions-Policy: geolocation=(), microphone=(), camera=()
 
-# The YouTube page talks to the download server on brach, so it gets its own policy.
-# The wallet and other tools keep the strict one above.
+# Only the YouTube page may make requests, and only to this site (its /yt/api proxy).
 /yt/*
   ! Content-Security-Policy
-  Content-Security-Policy: default-src 'self'; connect-src https://brach.taild3399f.ts.net:10000; style-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
+  Content-Security-Policy: default-src 'self'; style-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
 
 /assets/*
   Cache-Control: public, max-age=31536000, immutable

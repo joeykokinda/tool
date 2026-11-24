@@ -1,5 +1,5 @@
 // ytserver downloads YouTube videos with yt-dlp for the page at tools.jkokinda.com/yt/.
-// Config comes from the environment: YT_PASSWORD (required), ADDR, YT_DIR, ALLOW_ORIGIN.
+// Config comes from the environment: YT_PASSWORD (required), ADDR, YT_DIR.
 package main
 
 import (
@@ -83,7 +83,6 @@ type job struct {
 type server struct {
 	passwordHash [32]byte
 	workDir      string
-	allowOrigin  string
 	limiter      loginLimiter
 	slots        chan struct{}
 	mutex        sync.Mutex
@@ -254,20 +253,6 @@ func (app *server) jobFile(writer http.ResponseWriter, request *http.Request) {
 	http.ServeFile(writer, request, current.path)
 }
 
-func (app *server) withCORS(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
-		writer.Header().Set("Access-Control-Allow-Origin", app.allowOrigin)
-		writer.Header().Set("Access-Control-Allow-Headers", "Authorization, Content-Type")
-		writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-		writer.Header().Set("Vary", "Origin")
-		if request.Method == http.MethodOptions {
-			writer.WriteHeader(http.StatusNoContent)
-			return
-		}
-		next.ServeHTTP(writer, request)
-	})
-}
-
 func envOr(name, fallback string) string {
 	if value := os.Getenv(name); value != "" {
 		return value
@@ -283,7 +268,6 @@ func main() {
 	app := &server{
 		passwordHash: sha256.Sum256([]byte(password)),
 		workDir:      envOr("YT_DIR", filepath.Join(os.TempDir(), "ytserver")),
-		allowOrigin:  envOr("ALLOW_ORIGIN", "https://tools.jkokinda.com"),
 		slots:        make(chan struct{}, maxConcurrentJobs),
 		jobs:         map[string]*job{},
 	}
@@ -299,5 +283,5 @@ func main() {
 	mux.HandleFunc("GET /jobs/{id}/file", app.jobFile)
 	address := envOr("ADDR", "127.0.0.1:8377")
 	log.Printf("ytserver listening on %s", address)
-	log.Fatal(http.ListenAndServe(address, app.withCORS(mux)))
+	log.Fatal(http.ListenAndServe(address, mux))
 }

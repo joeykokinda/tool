@@ -1,4 +1,4 @@
-const api = "https://brach.taild3399f.ts.net:10000";
+const api = "/yt/api";
 const form = document.getElementById("download-form");
 const statusLine = document.getElementById("status");
 const fileLink = document.getElementById("file-link");
